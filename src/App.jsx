@@ -1,11 +1,10 @@
 import React from 'react';
 import { ReactTerminal } from 'react-terminal';
 
-function App(props) {
-  // Define commands here
+function App() {
   const commands = {
     whoami: "What's up, I'm Tariq!",
-    cd: (directory) => `Changed path to ${directory}`,
+    cd: (directory) => `Changed path to ${directory}, but not really`,
     link: () => (
       <a href='https://example.com' target='_blank' rel='noopener noreferrer'>
         Click me!
@@ -15,18 +14,20 @@ function App(props) {
 
   return (
     <>
-      <body className='w-screen h-screen'>
-        <div className='border-4 border-gray-400 p-4 w-1/3  h-1/2 flex items-center justify-center'>
-          <div className='w-full h-full border-4'>
-            <ReactTerminal
-              commands={commands}
-              theme='dracula'
-              showControlBar={false}
-              showControlButtons={false}
-            />
-          </div>
+      <div className='flex flex-auto font-primary text-2xl font-extrabold  justify-center items-center mt-40'>
+        <span>tariq-rahman.com</span>
+      </div>
+      <div className='flex flex-auto h-screen w-screen justify-center mt-16'>
+        <div className='border-2 border-black w-7/12 h-1/2 justify-center'>
+          <ReactTerminal
+            className='terminal'
+            commands={commands}
+            showControlBar={false}
+            showControlButtons={false}
+            theme={'material-light'}
+          />
         </div>
-      </body>
+      </div>
     </>
   );
 }
