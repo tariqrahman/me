@@ -1,4 +1,4 @@
-import pfp from "../images/IMG_1420.jpg";
+import pfp from "../media/IMG_1420.jpg";
 import { TypeAnimation } from "react-type-animation";
 
 const AboutMe = () => {
