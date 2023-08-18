@@ -3,6 +3,8 @@ import { ReactTerminal } from "react-terminal";
 import Resume from "../media/TariqRahmanResume.pdf";
 import emailjs from "@emailjs/browser";
 import { Link } from "react-router-dom";
+import Box from "./box.jsx";
+import { Canvas } from "@react-three/fiber";
 
 const Home = (props) => {
   const [lastCommands, setLastCommands] = useState();
@@ -21,9 +23,7 @@ const Home = (props) => {
     });
   }, [templateParams.message]);
 
-  console.log(lastCommands);
-  console.log(templateParams);
-  const handleNotFound = (currentCommand) => {
+  const handleNotFound = (currentCommand, params) => {
     if (lastCommands === "messageme") {
       const updateName = { ...templateParams };
       updateName.name = currentCommand;
@@ -31,9 +31,8 @@ const Home = (props) => {
       setLastCommands(currentCommand);
       return "enter your message/question:";
     } else if (templateParams.name === lastCommands) {
-      console.log("here");
       const updateMessage = { ...templateParams };
-      updateMessage.message = currentCommand;
+      updateMessage.message = currentCommand + " " + params;
       setTemplateParams(updateMessage);
       setLastCommands();
       return "success";
@@ -86,6 +85,11 @@ const Home = (props) => {
       params: [],
       description: "send me a message!",
     },
+    {
+      name: "trex",
+      params: [],
+      description: "emulation of google's trex game",
+    },
   ];
   const commands = {
     whoami: (
@@ -109,9 +113,11 @@ const Home = (props) => {
           {commandDescriptions.map((command) => (
             <div>
               &gt;
-              <span className="text-red-500 font-black"> {command.name} </span>
+              <span className="text-white font-black"> {command.name} </span>
               {command.params.map((param) => (
-                <span className="underline underline-offset-2">{param}</span>
+                <span className="underline text-red-500 underline-offset-2">
+                  {param}
+                </span>
               ))}
               <span> - {command.description}</span>
             </div>
@@ -126,10 +132,24 @@ const Home = (props) => {
       setLastCommands("messageme");
       return "enter your name:";
     },
+    trex: "come back when tariq learns c#",
   };
   return (
     <>
-      <div className="flex flex-auto font-primary text-2xl font-extrabold justify-center items-center pt-40">
+      <Canvas
+        camera={{
+          fov: 75,
+          near: window.innerWidth / window.innerHeight,
+          far: 0.1,
+          position: 1000,
+        }}
+      >
+        <ambientLight intensity={0.1} />
+        <directionalLight color="red" position={[0, 0, 5]} />
+        <pointLight position={[-10, -10, -10]} />
+        <Box position={[-1.2, 0, 0]} />
+      </Canvas>
+      <div className="flex flex-auto font-primary text-2xl font-extrabold justify-center items-center">
         <span>tariq-rahman.com</span>
       </div>
       <div className="flex flex-auto h-[30rem] w-screen justify-center pt-16">
@@ -137,19 +157,21 @@ const Home = (props) => {
           <ReactTerminal
             className="terminal"
             commands={commands}
-            showControlBar={false}
+            showControlBar={true}
             showControlButtons={true}
             themes={{
               myCustomTheme: {
-                themeBGColor: "#FFFFFF",
+                themeBGColor: "#272B36",
                 themeToolbarColor: "#DBDBDB",
-                themeColor: "#000000",
-                themePromptColor: "#000000",
+                themeColor: "#0BDA51",
+                themePromptColor: "#0BDA51",
               },
             }}
             theme="myCustomTheme"
             welcomeMessage={<p>type "help" for a list of valid commands</p>}
-            defaultHandler={(command) => handleNotFound(command)}
+            defaultHandler={(command, params) =>
+              handleNotFound(command, params)
+            }
           />
         </div>
       </div>
