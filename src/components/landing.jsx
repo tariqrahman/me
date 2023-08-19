@@ -3,10 +3,9 @@ import { ReactTerminal } from "react-terminal";
 import Resume from "../media/TariqRahmanResume.pdf";
 import emailjs from "@emailjs/browser";
 import { Link } from "react-router-dom";
-import Box from "./box.jsx";
-import { Canvas } from "@react-three/fiber";
+import Footer from "./footer";
 
-const Home = (props) => {
+const Landing = () => {
   const [lastCommands, setLastCommands] = useState();
   const [templateParams, setTemplateParams] = useState({
     name: "",
@@ -136,47 +135,38 @@ const Home = (props) => {
   };
   return (
     <>
-      <Canvas
-        camera={{
-          fov: 75,
-          near: window.innerWidth / window.innerHeight,
-          far: 0.1,
-          position: 1000,
-        }}
-      >
-        <ambientLight intensity={0.1} />
-        <directionalLight color="red" position={[0, 0, 5]} />
-        <pointLight position={[-10, -10, -10]} />
-        <Box position={[-1.2, 0, 0]} />
-      </Canvas>
-      <div className="flex flex-auto font-primary text-2xl font-extrabold justify-center items-center">
-        <span>tariq-rahman.com</span>
-      </div>
-      <div className="flex flex-auto h-[30rem] w-screen justify-center pt-16">
-        <div className="border-2 rounded border-black w-1/2 h-full justify-center">
-          <ReactTerminal
-            className="terminal"
-            commands={commands}
-            showControlBar={true}
-            showControlButtons={true}
-            themes={{
-              myCustomTheme: {
-                themeBGColor: "#272B36",
-                themeToolbarColor: "#DBDBDB",
-                themeColor: "#0BDA51",
-                themePromptColor: "#0BDA51",
-              },
-            }}
-            theme="myCustomTheme"
-            welcomeMessage={<p>type "help" for a list of valid commands</p>}
-            defaultHandler={(command, params) =>
-              handleNotFound(command, params)
-            }
-          />
+      <div className="h-[85vh]">
+        <div className="flex font-primary text-2xl font-extrabold justify-center items-center pt-24">
+          <span>tariq-rahman.com</span>
         </div>
+        <div className="flex flex-auto h-80 md:h-[30rem] w-screen justify-center pt-16">
+          <div className="border-2 rounded border-black w-1/2 h-full justify-center">
+            <ReactTerminal
+              className="terminal"
+              commands={commands}
+              showControlBar={true}
+              showControlButtons={true}
+              themes={{
+                myCustomTheme: {
+                  themeBGColor: "#272B36",
+                  themeToolbarColor: "#DBDBDB",
+                  themeColor: "#0BDA51",
+                  themePromptColor: "#0BDA51",
+                },
+              }}
+              theme="myCustomTheme"
+              welcomeMessage={<p>type "help" for a list of valid commands</p>}
+              defaultHandler={(command, params) =>
+                handleNotFound(command, params)
+              }
+            />
+          </div>
+        </div>
+        
       </div>
+      <Footer />
     </>
   );
 };
 
-export default Home;
+export default Landing;
